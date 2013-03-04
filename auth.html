@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="zh-cn">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+	<title>TeamToy</title>
+	<meta name="description" content="">
+	<meta name="author" content="easychen@gmail.com">
+
+	<meta name="viewport" content="width=device-width,initial-scale=1">
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+
+	<link rel="stylesheet" href="css/style.css">
+
+	<script src="js/libs/modernizr-2.0.6.min.js"></script>
+</head>
+<body class="op-cover">
+
+<div id="container" >
+	<header>
+	<h1 class="logo"><img src="image/tt2login.title.png" id="logo" /></h1>
+	</header>
+	<div id="main" role="main">
+	<center>
+	<h2 class="logo">高级设置</h2>	
+	<p><input class="op-cover round8" name="username" id="username" type="text" placeholder="Basic认证用户名" value="" /></p>
+	<p><input class="op-cover round8" name="password"  id="password" type="password" placeholder="Basic认证密码" value=""/></p>
+	<p><input class="op-cover round8" name="folder"  id="folder" type="folder" placeholder="子目录" value=""/></p>
+	<p><input class="op-cover round8" name="port"  id="port" type="port" placeholder="端口" value=""/></p>
+	<p class="submit" id="login_btn_p">
+	<input type="button" value="«" class="op-cover round8 button"  onclick="change_page('index');void(0);">&nbsp;<span class="exp">- or -</span>&nbsp;<input type="button" value="保存" class="op-cover round8 button" id="login_button" onclick="basic();void(0);"></p>
+	
+	</center>
+	</div>
+	<footer>
+
+	</footer>
+</div> <!--! end of #container -->
+
+<script src="js/libs/base64.js"></script>
+<script src="js/libs/jq.mobi.js"></script>
+<script src="js/libs/jq.i18n.min.js"></script>
+<script src="js/libs/i18n.dict.js"></script>
+
+
+<!-- scripts concatenated and minified via ant build script-->
+<script type="text/javascript">
+
+function loaded() 
+{
+	$.i18n.setDictionary(dict_zh_cn);	
+	$('#username').val( kget('basic_username') );
+	$('#password').val( kget('basic_password') );
+	$('#folder').val( kget('api_folder') );
+	$('#port').val( kget('api_port') );
+}
+
+function basic()
+{
+	kset('basic_username' , $('#username').val());
+	kset('basic_password' , $('#password').val());
+	kset('api_folder' , $('#folder').val());
+	kset('api_port' , $('#port').val());
+	tt_alert('已经保存');
+	change_page('index');
+}
+
+document.addEventListener('DOMContentLoaded', loaded, false);
+
+
+
+</script>
+<script src="js/plugins.js"></script>
+<script src="js/script.js"></script>
+<!-- end scripts-->
+
+</body>
+</html>

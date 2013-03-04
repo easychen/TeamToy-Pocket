@@ -1,0 +1,247 @@
+<!doctype html>
+<html lang="zh-cn">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+	<title></title>
+	<meta name="description" content="">
+	<meta name="author" content="">
+
+	<meta name="viewport" content="width=device-width,initial-scale=1">
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	
+	<link rel="stylesheet" href="css/style.css">
+	<script src="js/libs/modernizr-2.0.6.min.js"></script>
+</head>
+<body class="op-body">
+
+<div class="op-card cur" id="todo_card">
+
+<header  class="op-header">
+<input type="button" class="header-btn list left" onclick="change_card('menu_card');void(0);"/>
+<input type="button" class="header-btn feed right"  onclick="change_card('feed_card');void(0);"/>
+<h1 id="todo_title"><img src="image/tt2.logo.png" class="logo"/></h1>
+</header>
+
+<div id="todomain" class="op-wrapper">
+	
+	<div id="todoscroller" class="op-scroller">
+	<ul id="todo_list_star">
+	<li class="red"><a href="#">正在载入&nbsp;<img id="t-img" src="image/ring.png" /></a></li>
+	</ul>
+	
+	<ul id="todo_list_normal"></ul>
+	
+	<p class="dtitle"><img src="image/tt2.title.done.png" /></p>
+	
+	<ul id="todo_list_done"></ul>
+	
+	
+	</div>
+	
+</div>
+
+<footer class="op-footer">
+ <input type="text" id="todo_text" value="" class="todo_box round8" />&nbsp;
+ <input type="button" class="todo_add_btn round8" value="" onclick="todo_add();" />
+
+</footer>
+
+</div>
+
+<!-- ///  feed card   ///   -->
+<div class="op-card" id="feed_card">
+
+<header  class="op-header">
+<input type="button" class="header-btn back2 left" onclick="change_card('todo_card');void(0);"/>
+<input type="button" class="header-btn add right"  onclick="change_card('todo_card');void(0);"/>
+<h1 id="feed_title" class="i18n">Activity</h1>
+</header>
+
+
+<div id="feedmain" class="op-wrapper">
+	<div id="feedscroller" class="op-scroller">
+	<div id="cover">
+		<div id="cover_icon"></div>	
+		<div id="refresh_icon"><img src="image/refresh@2x.png" id="refresh_image" width="24" onclick="load_feed();"></div>	
+		<div id="cover_dot"></div>
+		<div id="cover_line"></div>
+		<div id="cover_time"></div>
+		
+	</div>
+		<ul id="path_list">
+		<li class="clearfix">
+				<div class="list_avatar" data-url="${user.picture}"></div>
+				<div class="list_dot"></div>
+                <div class="list_thought_wrapper">
+				<span class="arrow">◆</span>
+				<div class="list_thought">
+				 ${text}
+				</div>
+                </div>
+   
+			</li>
+			<li class="clearfix">
+				<div class="list_avatar" data-url="${user.picture}"></div>
+				<div class="list_dot"></div>
+                <div class="list_thought_wrapper">
+				<span class="arrow">◆</span>
+				<div class="list_thought">
+				 ${text}
+				</div>
+                </div>
+   
+			</li>
+			<li class="clearfix">
+				<div class="list_avatar" data-url="${user.picture}"></div>
+				<div class="list_dot"></div>
+                <div class="list_thought_wrapper">
+				<span class="arrow">◆</span>
+				<div class="list_thought">
+				 ${text}
+				</div>
+                </div>
+   
+			</li>
+			<li class="clearfix">
+				<div class="list_avatar" data-url="${user.picture}"></div>
+				<div class="list_dot"></div>
+                <div class="list_thought_wrapper">
+				<span class="arrow">◆</span>
+				<div class="list_thought">
+				 ${text}
+				</div>
+                </div>
+   
+			</li>
+		</ul>
+		
+	</div>
+	
+</div>
+
+</div>
+
+<!-- ///  menu card   ///   -->
+<div class="op-card" id="menu_card">
+
+<header  class="op-header">
+<input type="button" class="header-btn back right"  onclick="change_card('todo_card');void(0);"/>
+<h1 id="menu_title" class="i18n">Menu</h1>
+</header>
+
+<div id="menumain" class="op-wrapper">
+<div id="menuscroller" class="op-scroller">
+<ul id="menu_list">
+	<li><a href="javascript:logout();void(0);">退出当前账号</a></li>
+	<li><a href="javascript:sync_recover();void(0);">主动同步数据</a></li>
+	<li class="blue"><a href="javascript:void(0);">设置头像</a></li>
+	<li class="blue"><a href="#">TeamToy官方网站</a class="blue"></li>
+	
+	<li class="blue"><a href="#">检查新版本</a></li>
+	<li class="blue"><a href="#">0.5版本 build20120330</a></li>
+	
+	
+</ul>	
+	
+</div>	
+</div>
+
+
+</div>
+
+
+
+
+	<script src="js/libs/jq.mobi.js"></script>
+	<script src="js/libs/jq.i18n.min.js"></script>
+	<script src="js/libs/jq.template.js"></script>
+	<script src="js/libs/i18n.dict.js"></script>
+	<script src="js/libs/iscroll.js"></script>
+	<script src="js/plugins.js"></script>
+	<script src="js/script.js"></script>
+	<script src="phonegap.js"></script>
+	<script type="text/javascript">
+
+var todoScroll,feedScroll,menuScroll;
+
+function loaded() 
+{
+	$.i18n.setDictionary(dict_zh_cn);
+	i18n();
+	todoScroll = new iScroll('todomain');
+	feedScroll = new iScroll('feedmain');
+	menuScroll = new iScroll('menumain');
+	
+	// check token exists
+	if( !kget('op_token') )
+	{
+		alert('no token');
+		change_page( 'index' );
+	}
+	
+	// 在android机器上给滚动条留出位置
+	if( $.os.android )
+	{
+		$("ul#todo_list_star").css('width','300px');
+		$("ul#todo_list_normal").css('width','300px');
+		$("ul#todo_list_done").css('width','300px');
+		
+	}
+
+	db = window.openDatabase("TTDB", "1.0", "TTDB", 1024*1024);
+	// 初始化本地数据库
+	database_init();
+	// 开始读取服务器端信息
+	load_todo();
+	bind_titles();	
+	
+	//setInterval( sync_recover , 600000 );
+	// 5 minutes
+	setInterval( sync_recover , 300000 );
+	
+}
+
+document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false);
+document.addEventListener('DOMContentLoaded', loaded, false);
+document.addEventListener("deviceready",onDeviceReady,false);
+
+
+function onDeviceReady() 
+{
+	// alert('dev ok');
+	on_phonegap = true;
+	
+   
+}
+
+
+</script>
+
+<script id="todo_list_star_tpl" type="text/html">
+<% for ( var i = 0; i < items.length; i++ ) { %>
+    <li class="<%if(items[i].is_public == 1){%>red<%}else{%>blue<%}%>" id="t-<%=items[i].tid%>"><a href="#"><%=items[i].content%></a></li>
+<% } %>
+</script>
+
+<script id="todo_list_normal_tpl" type="text/html">
+<% for ( var i = 0; i < items.length; i++ ) { %>
+    <li class="<%if(items[i].is_public == 1){%>red<%}else{%>blue<%}%>" id="t-<%=items[i].tid%>"><a href="#"><%=items[i].content%></a></li>
+<% } %>
+</script>
+
+<script id="todo_list_done_tpl" type="text/html">
+<% for ( var i = 0; i < items.length; i++ ) { %>
+    <li class="<%if(items[i].is_public == 1){%>red<%}else{%>blue<%}%>" id="t-<%=items[i].tid%>"><a href="#"><%=items[i].content%></a></li>
+<% } %>
+</script>
+
+
+
+
+
+<!-- end scripts-->
+
+</body>
+</html>

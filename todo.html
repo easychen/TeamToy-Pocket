@@ -1,0 +1,1002 @@
+<!doctype html>
+<html lang="zh-cn">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+	<title>TeamToy</title>
+	<meta name="description" content="">
+	<meta name="author" content="easychen@gmail.com">
+
+	<!--
+	<meta name="viewport" content="width=device-width,initial-scale=1">-->
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+	
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<link rel="apple-touch-icon" href="image/tt2icon.png"/>
+    <link rel="apple-touch-startup-image" href="image/teamtoysplash.png">
+	
+	<meta name="format-detection" content="telephone=no">
+	
+	<link rel="stylesheet" href="css/font-awesome.css">
+	<link rel="stylesheet" href="css/style.css">
+	<link rel="stylesheet" href="css/qunit.css">
+	<script src="js/libs/modernizr-2.0.6.min.js"></script>
+	<script src="js/libs/shake.js"></script>
+	<!--
+	<script src="http://weinre.tools.sinaapp.com/target/target-script-min.js#unittest"></script>
+	-->
+       
+</head>
+<body class="op-body">
+
+<footer class="op-footer clear-fix" id="global_footer">
+<div id="notice_count"></div>
+<ul class="bottom_nav">
+<li id="notice_card_icon"><input class="mail2" type="button" onclick="noticebox();void(0);" /></li>
+<li id="feed_card_icon"><input class="cast" type="button" onclick="change_to_feed();void(0);"/></li>
+<li id="todo_card_icon" class="cur"><input class="todos" type="button" onclick="change_card('todo_card');void(0);"/></li>
+<li id="members_card_icon"><input class="buddy" type="button" onclick="change_to_members();;void(0);"/></li>
+<li id="menu_card_icon"><input class="settings" type="button" onclick="change_card('menu_card');void(0);"/></li>
+</ul>	
+</footer>
+
+
+<div class="op-card cur" id="todo_card">
+
+<header  class="op-header">
+<input type="button" class="header-btn hold left" />
+<input type="button" class="header-btn right add" value="" onclick="todobox();void(0);" />
+<h1 id="todo_title"><img src="image/tt2.toptitle.png" class="toptitle" /> <i class="icon-chevron-down" id="float_menu_icon"></i></h1>
+</header>
+
+<div id="todomain" class="op-wrapper">
+	
+	<div id="todoscroller" class="op-scroller">
+	<div id="pullDown">
+			<span class="pullDownIcon"></span><span class="pullDownLabel">下拉同步云端数据…</span>
+	</div>
+		
+	<div class="op-tab cur" id="todo_mine">
+	<ul id="todo_list_star">
+	<li class="red"><a href="#">正在载入&nbsp;<img id="t-img" src="image/ring.32.png" /></a></li>
+	</ul>
+	<ul id="todo_list_normal"></ul>
+	<p class="dtitle"><img src="image/tt2.title.done.png" /></p>
+	<ul id="todo_list_done"></ul>
+	</div>
+	
+	<div class="op-tab" id="todo_follow">
+	<ul id="todo_list_follow">
+	</ul>
+	</div>
+	
+	
+	</div><!-- / todoscroller -->
+	
+</div>
+
+</div>
+
+
+<!-- ///  notice card   ///   -->
+<div class="op-card" id="notice_card">
+
+<header  class="op-header">
+<input type="button" class="header-btn hold left"/>
+<input type="button" class="header-btn tbtn right" value="已读" onclick="mark_read();void(0);"  />
+<h1 id="notice_title" class="i18n">系统通知</h1>
+</header>
+
+
+<div id="noticemain" class="op-wrapper">
+	<div id="noticescroller" class="op-scroller">
+		<ul id="notice_list">	
+		<li class="clearfix">
+		正在载入&nbsp;<img class="ring" src="image/ring.32.png" />
+		</li>
+		
+		</ul>
+	</div>
+	
+</div>
+
+</div>
+
+<!-- ///  notice card   ///   -->
+
+<div class="op-card" id="feed_card">
+
+<header  class="op-header">
+<input type="button" class="header-btn hold left"/>
+<input type="button" class="header-btn right add" value="" onclick="castbox();void(0);" />
+<h1 id="feed_title" class="i18n">Activity</h1>
+</header>
+
+
+<div id="feedmain" class="op-wrapper">
+	<div id="feedscroller" class="op-scroller">
+	<div id="cover">
+		<div id="cover_time"></div>	
+		<div id="cover_dot"></div>
+		<div id="cover_line"></div>
+		
+		
+		
+	</div>
+		<ul id="feed_list">	
+		<li class="clearfix">
+	<div class="list_avatar" ></div>
+	<div class="list_dot"></div>
+	<div class="list_thought_wrapper">
+	<div class="list_thought">正在载入&nbsp;<img class="ring" src="image/ring.32.png" /></div>
+	</div>
+	</div>
+
+</li>
+		</ul>
+		
+		
+	</div>
+</div>
+
+
+
+</div>
+
+<!-- ///  menu card   ///   -->
+<div class="op-card" id="menu_card">
+
+<header  class="op-header">
+<input type="button" class="header-btn hold left"  />
+<input type="button" class="header-btn about right" onclick="tt_alert('TeamToy V1.0 Build20120403 ','版本信息');void(0);"/>
+<h1 id="menu_title" class="i18n">Menu</h1>
+</header>
+
+<div id="menumain" class="op-wrapper">
+<div id="menuscroller" class="op-scroller">
+<ul id="menu_list">
+	<li><a href="javascript:logout();void(0);">退出【<span class="account_name"></span>】账号</a></li>
+	<!--<li><a href="javascript:sync_recover();void(0);">主动同步数据</a></li>-->
+	<li class="blue"><a href="javascript:avatar();void(0);">设置头像</a></li>
+	
+	<li class="blue"><a href="javascript:change_to_profile();void(0);">个人资料</a></li>
+	<li class="blue"><a href="javascript:change_password();void(0);">修改密码</a></li>
+	<li class="blue push"><a href="javascript:add_push();void(0);">接收推送消息</a></li>
+	<li class="blue push"><a href="javascript:remove_push();void(0);">关闭推送消息</a></li>
+		
+	<!--
+	<li class="blue"><a href="javascript:change_to_members();void(0);">成员管理</a></li>
+	
+	
+	<li class="blue"><a href="#">TeamToy官方网站</a class="blue"></li>
+	
+	<li class="blue"><a href="#">检查新版本</a></li>
+	<li class="blue"><a href="javascript:change_card('unittest-card');void(0);">单元测试</a></li>
+	-->
+	<li class="red"><a href="javascript:database_clean();void(0);">清理缓存</a></li>
+	<!--<li class="red"><a href="javascript:ding();void(0);">Ding</a></li>-->
+	
+	
+</ul>	
+	
+</div>	
+
+</div>
+
+
+</div>
+<!-- =======  todo_add card  =======   -->
+<div class="op-card" id="todobox_card">
+<header  class="op-header">
+<input type="button" class="header-btn left i18n tbtn backbtn" value="Back" onclick="change_card('todo_card')"/>
+<input type="button" class="header-btn right i18n tbtn" value="Save" onclick="todo_add();" id="thought_button"/>
+<h1 id="todobox_title" class="i18n">Add TODO</h1>
+
+</header>
+
+<textarea class="op-form" placeholder="在这里输入TODO内容"  id="todo_text" autofocus>
+</textarea>
+<div>
+<div class="theblue right t-voice" onclick="voice('todo_text');"> <i class="icon-comments"></i> 语音录入</div>
+<div class="t-check theblue" id="todo_private_btn" onclick="toggle_private()">
+  <i class="icon-check" id="todo_private_icon"></i> <span id="private_btn_text">团队成员可见</span>
+</div>
+</div>
+<input type="hidden" name="is_private" id="private_value" value="0"/>
+
+
+
+</div><!-- /todoadd_card -->
+
+<!-- =======  smsbox card  =======   -->
+<div class="op-card" id="smsbox_card">
+<header  class="op-header">
+<input type="button" class="header-btn left i18n tbtn backbtn" value="Back" onclick="change_card('members_card')"/>
+<input type="button" class="header-btn right i18n tbtn" value="Send" onclick="sms_send();" id="sms_button"/>
+<h1 id="smsbox_title" class="i18n">群发短信</h1>
+
+</header>
+
+<textarea class="op-form" placeholder="在这里输入短信内容，TeamToy将通过您的手机发送短信，运营商会收取费用"  id="sms_text" autofocus>
+</textarea>
+
+</div><!-- /smsbox_card -->
+
+<!-- =======  cast_add card  =======   -->
+<div class="op-card" id="castbox_card">
+<header  class="op-header">
+<input type="button" class="header-btn left i18n tbtn backbtn" value="Back" onclick="change_card('feed_card')"/>
+<input type="button" class="header-btn right i18n tbtn" value="Save" onclick="cast_add();" />
+<h1 id="castbox_title" class="i18n">发起广播</h1>
+
+</header>
+
+<textarea class="op-form" placeholder="默认广播将发给所有人，想只发给部分人请使用@进行点名"  id="cast_text" autofocus>
+</textarea>
+<div>
+<div class="theblue right t-voice" onclick="voice('cast_text');"> <i class="icon-comments"></i> 语音录入</div>
+<div class="t-check theblue" id="comment_at_btn">
+<a href="javascript:set_at( 'cast_text' , 'castbox_card' );void(0);">@其他人</a>
+</div>
+</div>
+
+
+
+</div><!-- /todoadd_card -->
+
+<!-- ==== members card ===== -->
+<div class="op-card" id="members_card">
+<header  class="op-header">
+<input type="button" class="header-btn left tbtn" value="导出" onclick="write_contact();"/>
+<input type="button" class="header-btn right tbtn" value="短信群发" onclick="sms_box();" id="sms_send" />
+
+<!--
+<input type="button" class="header-btn right i18n tbtn" value="同步" onclick="load_remote_members(false,1);void(0);" />
+-->
+
+
+<h1 id="members_title" class="i18n">Members</h1>
+</header>
+
+<div id="membersmain" class="op-wrapper">
+<div id="membersscroller" class="op-scroller">
+<div id="pullDown2">
+			<span class="pullDownIcon"></span><span class="pullDownLabel">下拉同步云端数据…</span>
+</div>
+<ul id="members_list">
+	<li><a href="#">正在载入&nbsp;<img id="t-img" src="image/ring.32.png" /></a></li>
+</ul>	
+	
+</div>	
+</div>
+
+</div>
+<!-- /members_card -->
+
+<!-- ==== minfo card ===== -->
+<div class="op-card" id="minfo_card">
+<header  class="op-header">
+<input type="button" class="header-btn left i18n tbtn backbtn" value="Back"  id="minfo_back"/>
+<input type="button" class="header-btn right i18n hd" value="" />
+<h1 id="minfo_title">成员详情</h1>
+</header>
+
+<div id="minfomain">
+</div>
+
+
+</div>
+<!-- /minfo_card -->
+
+<!-- ==== code card ===== -->
+<div class="op-card" id="code_card">
+<header  class="op-header">
+<input type="button" class="header-btn left i18n tbtn backbtn" value="Back" onclick="change_to_members();void(0);"  />
+<input type="button" class="header-btn right i18n hd" value="" />
+<h1 id="code_title">邀请成员</h1>
+</header>
+
+<div id="codemain">
+<textarea class="op-code" id="ta_code">
+
+</textarea>
+<p>请复制以上文字后通过短信或email发给要邀请的成员</p>
+</div>
+
+
+</div>
+<!-- /code_card -->
+
+<!-- ==== todo_detail card ===== -->
+<div class="op-card" id="tdetail_card">
+<header  class="op-header">
+<input type="button" class="header-btn left i18n tbtn backbtn" value="Back" id="detail_back_btn" />
+<input type="button" class="header-btn right hd" value="" />
+<h1 id="tdetail_title" class="i18n">TODO详情</h1>
+</header>
+
+<div id="tdetailmain" class="op-wrapper">
+<div id="tdetailscroller" class="op-scroller">
+<div id="tdetailcontainer"></div>	
+</div>	
+</div>
+
+<footer class="op-footer" id="tdetail_footer">
+</footer>
+
+
+</div>
+<!-- /todo_detail_card -->
+
+<!-- =======  tcomment_card =======   -->
+<div class="op-card" id="tcomment_card">
+<header  class="op-header">
+<input type="button" class="header-btn left i18n tbtn backbtn" value="Back" onclick="change_card('tdetail_card')"/>
+<input type="button" class="header-btn right i18n tbtn" value="Save" onclick="todo_save_comment();" />
+<h1 id="comment_title" class="i18n">Add Comment</h1>
+</header>
+<textarea class="op-form" placeholder="在这里输入评论"  id="comment_text" autofocus>
+</textarea>
+<div>
+<div class="theblue right t-voice" onclick="voice('comment_text');"> <i class="icon-comments"></i> 语音录入</div>
+<div class="t-check theblue" id="comment_at_btn">
+<a href="javascript:set_at( 'comment_text' ,  'tcomment_card' );void(0);">@其他人</a>
+</div>
+</div>
+<input type="hidden" name="tcomment_tid" id="tcomment_tid" value="0" />
+</div><!-- /tcomment_card -->
+
+
+<!-- ==== mlist card ===== -->
+<div class="op-card" id="mlist_card">
+<header  class="op-header">
+<input type="button" class="header-btn left i18n tbtn backbtn" value="Back" id="btn_member_chooser_cancel"/>
+<input type="button" class="header-btn right i18n tbtn" id="btn_member_chooser_save" value="确定" />
+<h1 id="mlist_title" class="i18n">选择用户</h1>
+</header>
+
+<div id="mlistmain" class="op-wrapper">
+<div id="mlistscroller" class="op-scroller">
+<ul id="mlist_list">
+</ul>	
+	
+</div>	
+</div>
+
+
+</div>
+<!-- /mlist_card -->
+
+
+<!-- ==== profile card ===== -->
+<div class="op-card" id="profile_card">
+<header  class="op-header">
+<input type="button" class="header-btn left i18n tbtn backbtn" value="Back" onclick="change_card('menu_card');"  />
+<input type="button" class="header-btn right i18n tbtn" value="Save" onclick="update_profile();" />
+<h1 id="profile_title">资料设置</h1>
+</header>
+
+<div id="profilemain">
+</div>
+
+
+</div>
+<!-- /profile_card -->
+
+
+<!-- ==== password card ===== -->
+<div class="op-card" id="password_card">
+<header  class="op-header">
+<input type="button" class="header-btn left i18n tbtn backbtn" value="Back" onclick="change_card('menu_card');"  />
+<input type="button" class="header-btn right i18n tbtn" value="更新" onclick="update_password();" />
+<h1 id="password_title">修改密码</h1>
+</header>
+
+<div id="passwordmain">
+</div>
+
+
+</div>
+<!-- /profile_card -->
+
+
+
+
+
+<!-- ==== unittest card ===== -->
+<div class="op-card" id="unittest-card">
+<header  class="op-header">
+<input type="button" class="header-btn left i18n back2" value="" onclick="change_card('todo_card')"/>
+<input type="button" class="header-btn right i18n about" value="" />
+<h1 id="todobox_title" class="i18n">Unit Test</h1>
+</header>
+<div style="height:40px;"></div>
+<h2 id="qunit-banner"></h2>
+<ol id="qunit-tests"></ol>
+<div style="padding:10px;text-align:center">
+<input type="button" value="Run UnitTest" onclick="loadjs('js/unittest.js');void(0);" /></div>
+
+</div>
+<!-- /unittest_card -->
+
+
+
+
+<!-- float menu -->
+<div id="tt_float_menu">
+<span class="tips">▲</span>
+<ul>
+	<li><a href="javascript:change_tab('todo_mine');float_menu_toggle();$('#todo_title span.text').text('TeamToy');void(0);">我的TODO</a></li>
+	<li><a href="javascript:change_tab('todo_follow');float_menu_toggle();$('#todo_title span.text').text('关注的TODO');void(0);">我关注的TODO</a></li>
+</ul>
+</div>
+<!-- /float menu -->
+
+
+
+
+
+	<script src="js/libs/base64.js"></script>
+	<script src="js/libs/jq.mobi.js"></script>
+	<script src="js/script.js"></script>
+	<script src="js/libs/jq.i18n.min.js"></script>
+	<script src="js/libs/jq.template.js"></script>
+	<script src="js/libs/i18n.dict.js"></script>
+	<script src="js/libs/iscroll.js"></script>
+	<script src="js/plugins.js"></script>
+	<!--<script src="phonegap.js"></script>-->
+	<phonegap></phonegap>
+	<script type="text/javascript">
+
+var todoScroll,feedScroll,menuScroll,membersScroll,tdetailScroll,mlistScroll,noticeScroll; 
+
+function pullDownAction () 
+{
+	todoScroll.refresh();
+	
+	if( on_phonegap && !is_online )
+	{
+		float_message( '网络不可用，稍后再试' , true );
+		return false;
+	}
+	
+	
+	sync_recover( function(){ load_todo(true) ;}  );
+	
+	
+	// 设置30秒超时
+	/*
+	setTimeout( function()
+	{
+		todoScroll.refresh();
+	} , 30000 );
+	*/
+	
+}
+
+function pullDownAction2 () 
+{
+	if( on_phonegap && !is_online )
+	{
+		float_message( '网络不可用，稍后再试' , true );
+		return false;
+	}
+	
+	load_remote_members(function(){ membersScroll.refresh(); },1);
+	
+	
+	
+	// 设置30秒超时
+	/*
+	setTimeout( function()
+	{
+		todoScroll.refresh();
+	} , 30000 );
+	*/
+	
+}
+
+function loaded() 
+{
+	$.i18n.setDictionary(dict_zh_cn);
+	i18n();
+	feedScroll = new iScroll('feedmain');
+	menuScroll = new iScroll('menumain');
+	
+	tdetailScroll = new iScroll('tdetailmain');
+	//tdetailScroll = new iScroll('tdetailmain');
+	mlistScroll =  new iScroll('mlistmain');
+	noticeScroll = new iScroll('noticemain');
+
+	
+	
+	pullDownEl = document.getElementById('pullDown');
+	pullDownOffset = pullDownEl.offsetHeight;
+	console.log(pullDownOffset);
+	
+	pullDownEl2 = document.getElementById('pullDown2');
+	pullDownOffset2 = 50;
+	console.log(pullDownOffset2);
+	
+	membersScroll = new iScroll('membersmain', 
+	{
+		useTransition: true,
+		topOffset: pullDownOffset2,
+		onRefresh: function () 
+		{
+			if (pullDownEl2.className.match('loading2')) 
+			{
+				pullDownEl2.className = '';
+				pullDownEl2.querySelector('.pullDownLabel').innerHTML = '下拉同步云端数据…';
+			}
+			
+		},
+		onScrollMove: function () 
+		{
+			if (this.y > 5 && !pullDownEl2.className.match('flip')) 
+			{
+				pullDownEl2.className = 'flip';
+				pullDownEl2.querySelector('.pullDownLabel').innerHTML = '松开开始同步云端数据…';
+				this.minScrollY = 0;
+			}
+			else if (this.y < 5 && pullDownEl2.className.match('flip')) 
+			{
+				pullDownEl2.className = '';
+				pullDownEl2.querySelector('.pullDownLabel').innerHTML = '下拉同步云端数据…';
+				this.minScrollY = -pullDownOffset2;
+			}
+			
+		},
+		onScrollEnd: function () 
+		{
+			if (pullDownEl2.className.match('flip')) 
+			{
+				pullDownEl2.className = 'loading2';
+				pullDownEl2.querySelector('.pullDownLabel').innerHTML = '正在载入…';				
+				pullDownAction2();	// Execute custom function (ajax call?)
+			}
+			
+		}
+	});
+	//todoScroll = new iScroll('todomain');
+	todoScroll = new iScroll('todomain', 
+	{
+		useTransition: true,
+		topOffset: pullDownOffset,
+		onRefresh: function () 
+		{
+			if (pullDownEl.className.match('loading2')) 
+			{
+				pullDownEl.className = '';
+				pullDownEl.querySelector('.pullDownLabel').innerHTML = '下拉同步云端数据…';
+			}
+			
+		},
+		onScrollMove: function () 
+		{
+			if (this.y > 5 && !pullDownEl.className.match('flip')) 
+			{
+				pullDownEl.className = 'flip';
+				pullDownEl.querySelector('.pullDownLabel').innerHTML = '松开开始同步云端数据…';
+				this.minScrollY = 0;
+			}
+			else if (this.y < 5 && pullDownEl.className.match('flip')) 
+			{
+				pullDownEl.className = '';
+				pullDownEl.querySelector('.pullDownLabel').innerHTML = '下拉同步云端数据…';
+				this.minScrollY = -pullDownOffset;
+			}
+			
+		},
+		onScrollEnd: function () 
+		{
+			if (pullDownEl.className.match('flip')) 
+			{
+				pullDownEl.className = 'loading2';
+				pullDownEl.querySelector('.pullDownLabel').innerHTML = '正在载入…';				
+				pullDownAction();	// Execute custom function (ajax call?)
+			}
+			
+		}
+	});
+	
+	
+	
+	
+	setTimeout(function () 
+	{
+		document.getElementById('todomain').style.left = '0';
+		document.getElementById('membersmain').style.left = '0';
+	}, 800);
+
+	setTimeout(function () 
+	{
+		document.addEventListener("deviceready",onDeviceReady,false);
+
+	}, 1000);
+
+	
+
+	
+	
+	// check token exists
+	if( !kget('op_token') )
+	{
+		alert('no token');
+		change_page( 'index' );
+	}
+	
+	$(".account_name").text(kget('op_uname'));
+
+	if( !$.os.android )
+	{
+		$("li.push").css('display','none');
+		$("#sms_send").removeClass('tbtn').addClass('hold');
+	}
+	
+	
+	// 在android机器上给滚动条留出位置
+	/*
+	if( $.os.android )
+	{
+		$("ul#todo_list_star").css('width',(parseInt( $("ul#todo_list_star").css('width') )-10) + 'px');
+		
+		$("ul#todo_list_normal").css('width',(parseInt( $("ul#todo_list_normal").css('width') )-10) + 'px');
+		
+		$("ul#todo_list_done").css('width',(parseInt( $("ul#todo_list_done").css('width') )-10) + 'px');
+		
+	}
+	*/
+	db = window.openDatabase("TTDB", "1.0", "TTDB", 1024*1024);
+	// 初始化本地数据库
+	database_init();
+	// 开始读取服务器端信息
+	load_todo();
+	bind_titles();	
+	
+	members_init();
+	//setInterval( sync_recover , 600000 );
+	// 5 minutes
+	//setInterval( sync_recover , 300000 );
+	check_notice();
+	setInterval( check_notice , 100000 );
+	
+}
+
+
+function shakeEventDidOccur()
+{
+	tt_confirm( '清除全部已完成的TODO？' , function()
+	{
+		//alert('开始清除');
+		float_message('通信中，请稍候',false,true);
+		$.post( 'http://' +  kget('op_domain')  + '/index.php?c=api&a=todo_remove_done' , 
+		{
+			'token' : kget('op_token') 
+		} , function( data )
+		{
+			var data_obj = $.parseJSON( data );
+			console.log( data_obj );
+			if( data_obj.err_code != 0 )
+			{
+				float_message('云端同步失败',true);
+			}
+			else
+			{
+				if( data_obj.data.msg == 'ok' )
+				{
+					load_todo();
+				}
+			}
+		
+		});	
+		
+	} );
+}
+
+document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false);
+document.addEventListener('DOMContentLoaded', loaded, false);
+
+
+// shake sucks on andrid 4.2 coz works when screen locked
+//window.addEventListener('shake', shakeEventDidOccur, false);
+
+
+function onDeviceReady() 
+{
+	on_phonegap = true;
+	document.addEventListener("menubutton", function(){ change_card('menu_card') }, false);
+	
+	document.addEventListener("backbutton", ttback , false);
+	document.addEventListener("online", onOnline, false);
+	document.addEventListener("offline", offOnline, false);
+   
+}
+
+
+</script>
+
+<script id="todo_list_star_tpl" type="text/html">
+<% for ( var i = 0; i < items.length; i++ ) { %>
+    <li class="<%if(items[i].is_public == 0){%>red<%}else{%>blue<%}%>" id="t-<%=items[i].tid%>" tid="<%=items[i].tid%>">
+    	<div class="todo_fi"><div class="todo_row">
+    		<a href="javascript:void(0);" class="item"><%=items[i].content%></a>
+    	</div></div>
+    	</li>
+<% } %>
+</script>
+
+<script id="todo_list_normal_tpl" type="text/html">
+<% for ( var i = 0; i < items.length; i++ ) { %>
+    <li class="<%if(items[i].is_public == 0){%>red<%}else{%>blue<%}%>" id="t-<%=items[i].tid%>" tid="<%=items[i].tid%>">
+    	<div class="todo_fi"><div class="todo_row">
+    		<a href="javascript:void(0);" class="item"><%=items[i].content%></a>
+    	</div></div>
+
+    </li>
+<% } %>
+</script>
+
+<script id="todo_list_done_tpl" type="text/html">
+<% for ( var i = 0; i < items.length; i++ ) { %>
+    <li class="<%if(items[i].is_public == 0){%>red<%}else{%>blue<%}%>" id="t-<%=items[i].tid%>" tid="<%=items[i].tid%>"><div class="todo_fi"><div class="todo_row">
+    		<a href="javascript:void(0);" class="item"><%=items[i].content%></a>
+    	</div></div></li>
+<% } %>
+</script>
+
+<script id="todo_list_follow_tpl" type="text/html">
+<% for ( var i = 0; i < items.length; i++ ) { %>
+    <li id="t-<%=items[i].tid%>" tid="<%=items[i].tid%>" <%if(items[i].status == 3){%> class="finished" <%}%> >
+    <div class="todo_fi"><div class="todo_row">
+    		<a href="javascript:void(0);" class="item"><%=items[i].content%></a>
+    	</div></div>
+    </li>
+<% } %>
+</script>
+
+<script id="members_list_tpl" type="text/html">
+<% for ( var i = 0; i < items.length; i++ ) { %>
+    <li id="m-<%=items[i].uid%>" <%if(items[i].avatar_small){%>data-src="<%=items[i].avatar_small%>"<%}%>><a href="javascript:load_user_detail( '<%=items[i].uid%>' );void(0);"><%=items[i].name%><%if(items[i].email){%><span class="small"><%=items[i].email%></span><%}%></a></li>
+<% } %>
+</script>
+
+<script id="minfo_tpl" type="text/html">
+<h1><%=name%> </h1>
+
+
+<div id="user_bar">
+<img src="image/user.avatar.png" class="avatar_small" id="minfo_avatar" />
+<ul>
+	<li><a href="sms:+86<%=mobile%>">发短信</a></li>	
+	<li><a href="tel:+86<%=mobile%>">打手机</a></li>
+</ul>
+<br clear="all" />
+
+</div>
+<% if( email ){ %>
+<p><i class="icon-envelope" ></i> <%=email%> <a href="mailto:<%=email%>">写电邮</a>  </p>
+<% } %>
+
+<% if( mobile ){ %>
+<p><i class="icon-asterisk" ></i> <%=mobile%>  </p>
+<% } %>
+
+<% if( tel ){ %>
+<p><i class="icon-asterisk" ></i> <%=tel%>  <a href="tel:+86<%=tel%>">打座机</a></p>
+<% } %>
+
+<% if( eid ){ %>
+<p><i class="icon-user" ></i> 员工号 - <%=eid%>  </p>
+<% } %>
+
+<% if( weibo ){ %>
+<p><i class="icon-twitter-sign" ></i> 微博 - @<%=weibo%>  </p>
+<% } %>
+
+<% if( desp ){ %>
+<p class="desp"><i class="icon-leaf" ></i> 签名档 - <%=desp%>  </p>
+<% } %>
+
+<% if( (parseInt(kget('op_level')) == 9) && (kget('op_uid') != uid )){ %>
+<div class="admin"><input type="button" value="关闭" class="op-cover round8 button" onclick="close_user(<%=uid%>);void(0);"/>&nbsp; 
+<% if( level == 9 ){ %>
+<input type="button" value="降至普通" class="op-cover round8 button" onclick="normal_user(<%=uid%>);void(0);"/>
+<% }else{ %>
+<input type="button" value="升为管理" class="op-cover round8 button" onclick="admin_user(<%=uid%>);void(0);"/>
+<% } %>
+</div>
+<% } %>
+
+
+</script>
+
+<script id="profilemain_tpl" type="text/html">
+<p><input class="pf" name="email"  id="pf_email" type="text" placeholder="电子邮箱" value="<%=item.email%>"/></p>
+
+<p><input class="pf" name="mobile"  id="pf_mobile" type="text" placeholder="手机号码" value="<%=item.mobile%>"/></p>
+
+<p><input class="pf" name="tel"  id="pf_tel" type="text" placeholder="办公电话" value="<%=item.tel%>"/></p>
+
+<p><input class="pf" name="eid"  id="pf_eid" type="text" placeholder="员工号" value="<%=item.eid%>"/></p>
+
+<p><input class="pf" name="weibo"  id="pf_weibo" type="text" placeholder="微博昵称" value="<%=item.weibo%>"/></p>
+
+<p><input class="pf" name="desp"  id="pf_desp" type="text" placeholder="签名档" value="<%=item.desp%>"/></p>
+</script>
+
+<script id="passwordmain_tpl" type="text/html">
+<p><input class="pf" name="opassword"  id="pf_opassword" type="password" placeholder="原密码" value=""/></p>
+<p><input class="pf" name="password1"  id="pf_password1" type="password" placeholder="新密码" value=""/></p>
+<p><input class="pf" name="password2"  id="pf_password2" type="password" placeholder="重复新密码" value=""/></p>
+
+</script>
+
+<script id="tdetail_tpl" type="text/html">
+<div id="tdetail_text">
+<h1><%=item.content%></h1>
+<div id="tdetail_peoplebar">
+
+</div>
+<ul id="tdetail_toolbar">
+
+<% if( item.details ){%>
+
+
+	<% if( kget('op_uid') == item.owner_uid ){ %>
+	
+		<% if(  item.details.is_public == 1){ %>
+	<li  class="theblue"><i class="icon-share"></i><a href="javascript:todo_assign(<%=item.tid%>);void(0);">转让</a></li>
+		<% }else{ %>
+		<li  class="thegray"><i class="icon-share"></i><a href="javascript:tt_alert('私密TODO不能转让');void(0);">转让</a></li>	
+		<% } %>
+		
+		<% if( item.details.is_public == 1){ %>
+		<li  class="theblue"><i class="icon-info-sign"></i><a href="javascript:tdeail_private( <%=item.tid%> );">公开</a></li>
+		<% }else{ %>
+		<li  class="thered"><i class="icon-info-sign"></i><a href="javascript:tdeail_public( <%=item.tid%> );">私密</a></li>
+		<%}%>
+		
+		<% if( item.details.status == 3 ){ %>
+		<li class="theblue" ><i class="icon-ok"></i><a href="javascript:tdeail_reopen( <%=item.tid%> );">完成</a></li>
+		<% }else{ %>
+		<li class="thegray" ><i class="icon-ok"></i><a href="javascript:tdeail_done( <%=item.tid%>  );">完成</a></li>
+		<%}%>
+	
+	<% }else{ %>
+	
+		<% if( item.details.is_follow == 1 ){ %>
+		<li  class="theblue"><i class="icon-ok-sign"></i><a href="javascript:tdeail_unfollow( <%=item.tid%> );">关注</a></li>
+		<% }else{%>
+		<li  class="thegray"><i class="icon-ok-sign"></i><a href="javascript:tdeail_follow( <%=item.tid%> );">关注</a></li>
+		<%} %>	
+		
+		<li class="thered others">同事的TODO</li>	
+		
+		
+	<% } %>	
+	
+	
+	
+	
+	
+<%}else{%>
+<li  class="thegray"><i class="icon-ok-sign"></i><a href="javascript:tdeail_follow( <%=item.tid%> );">关注</a></li>
+<li class="thered others">同事的TODO</li>		
+<% } %>	
+</ul>
+</div>
+
+<%if( item.people ){%>
+<div id="tdetail_people_area">
+<h3>谁在关注</h3>
+<ul id="tdetail_people_list">
+<% for ( var i = 0; i < item.people.length; i++ ) { %>
+<li <% if( item.people[i].avatar_small ){ %>data-src="<%=item.people[i].avatar_small%>" <%}%> title="<%=item.people[i].name%>"></li>
+<%}%>
+</ul>
+</div>
+<%}%>
+
+<div id="tdetail_comment_area">
+<!--<h3>历史和讨论</h3>-->
+<ul id="tdetail_comment_list">
+<%if( item.history ){%>
+<% for ( var i = 0; i < item.history.length; i++ ) { %>
+<li id="tdc_<%=item.history[i].id%>" hid="<%=item.history[i].id%>" htype="<%=item.history[i].type%>">
+	<div class="content"><img src="image/user.avatar.png" data-src="<%=item.history[i].user.avatar_small%>" alt="<%=item.history[i].user.name%>" class="tclist_avatar" /> 
+	<%if( item.history[i].type == '2' ){%>
+	<span class="name"><%=item.history[i].user.name%>:</span>
+	<span class="content"><%=item.history[i].content%></span>
+	<%}else{%>
+	<span class="exp"><%=item.history[i].user.name%> <%=item.history[i].content%></span>
+	<%}%>
+	</div>
+	<span class="small"><%=item.history[i].timeline%></span>
+	
+</li>
+
+<%}%>
+<%}%>
+</ul>
+</div>
+
+
+
+
+
+</script>
+
+
+<script id="tdetail_history_item_tpl" type="text/html">
+<li id="tdc_<%=item.id%>" hid="<%=item.id%>" htype="<%=item.type%>">
+	<div class="content"><img src="image/user.avatar.png" data-src="<%=item.user.avatar_small%>" alt="<%=item.user.name%>" class="tclist_avatar" /> 
+	<%if( item.type == '2' ){%>
+	<span class="name"><%=item.user.name%>:</span>
+	<span class="content"><%=item.content%></span>
+	<%}else{%>
+	<span class="exp"><%=item.user.name%> <%=item.content%></span>
+	<%}%>
+	</div>
+	<span class="small"><%=item.timeline%></span>
+	
+</li>
+</script>
+
+<script id="tdetail_footer_tpl" type="text/html">
+ <input type="button" class="comment_box round8" onclick="todo_add_comment(<%=item.tid%>);" value="输入新评论的内容" />&nbsp;
+ <input type="button" class="todo_add_btn round8" value="" onclick="todo_add_comment(<%=item.tid%>);" />
+</script>
+
+<script id="mlist_tpl" type="text/html">
+<% for ( var i = 0; i < items.length; i++ ) { %>
+    <li id="cm-<%=items[i].uid%>" <%if(items[i].avatar_small){%>data-src="<%=items[i].avatar_small%>"<%}%> data-uid="<%=items[i].uid%>" data-name="<%=items[i].name%>" ><a href="javascript:void(0);"><%=items[i].name%></a></li>
+<% } %>
+</script>
+
+
+<script id="notice_list_tpl" type="text/html">
+<% for ( var i = 0; i < items.length; i++ ) { %>
+<li class="clearfix <%if(items[i].is_read == 1){%>read<%}%>" 
+nid="<%=items[i].id%>"  
+<% if(items[i].data &&　items[i].data.tid){ %> tid="<%=items[i].data.tid%>" <%}%>
+><%=items[i].content%>
+<div class="timeline"><%=items[i].timeline%></div>
+</li>
+<% } %>
+<% if( more == 1 ){ %>
+<li class="notice_more" id="notice_more_btn"><a href="javascript:load_notice(<%=min%>);">加载更多</a></li>
+<% } %>
+</script>
+
+
+
+<script id="feed_list_tpl" type="text/html">
+<% for ( var i = 0; i < items.length; i++ ) { %>
+<li <% if( items[i].tid > 0  ) {%> tid="<%=items[i].tid%>" <%} %> <% if( items[i].uid > 0  ) {%> uid="<%=items[i].uid%>" <%} %> type="<%=items[i].type%>" >
+	<div class="list_thought_wrapper">
+	<div class="list_thought">
+	<%if(items[i].type == 0 ){%><span class="name"><%=items[i].user.name%></span>: <%=items[i].content%><%}else{%><%=items[i].content%><%}%>
+	<div class="timeline"><%=items[i].timeline%></div>
+	</div>
+	</div>
+
+</li>
+<% } %>
+<% if( more == 1 ){ %>
+<li class="feed_more" id="feed_more_btn"><a href="javascript:show_feed_list(<%=min%>);">加载更多</a></li>
+<% } %>
+</script>
+
+
+
+
+
+
+
+<!-- end scripts-->
+
+</body>
+</html>

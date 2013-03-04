@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="zh-cn">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+</head>
+<body class="op-cover">
+<script src="js/libs/jquery-1.8.3.min.js"></script>
+<script src="js/script.js"></script>
+<script type="text/javascript">
+$.ajaxSetup({ cache: false });
+
+function callback() 
+{
+	console.log("callback.html callback");
+
+    
+	var url = 'http://' + kget('op_domain') 
+	+ '/index.php?c=api&a=user_unread&fr=android_push&nid='
+	+ kget('last_nid')
+	+'&token='
+	+ kget('op_token');
+
+	var data =  $.ajax({url:url, async:false}).responseText;
+	var data_obj = $.parseJSON( data );
+
+	if( data_obj.err_code == 0 )
+	{
+		$.ajax({url: 'http://' + kget('op_domain') + '/info.php?a=wakeup='+ data_obj.data.notice + '&nid='+data_obj.data.nid+'&text='+data_obj.data.text, async:false});
+
+		if( parseInt(data_obj.data.notice) > 0 )
+		{
+			//$.ajax({url: 'http://' + kget('op_domain') + '/33line', async:false});
+
+			var last_nid = 0;
+
+			if( isNaN( parseInt(kget('last_nid') ) )) 
+				kset('last_nid' , 0 ) ;
+
+			last_nid = parseInt(kget('last_nid'));
+
+
+			$.ajax({url: 'http://' + kget('op_domain') + '/40line_last_nid='+ last_nid + '_nid=_' + parseInt( data_obj.data.nid ) , async:false});
+
+			if(  (parseInt(last_nid) == 0) || (parseInt(last_nid) < parseInt( data_obj.data.nid )) )
+			{
+				//sina.utils.keyguard("disable");
+        		sina.utils.screen("wakeup");
+
+        		sina.notification.notify
+        		({
+          			"saeAppName": "tt2b",
+          			"redirectUrl": "todo.html",
+          			"tickerText": "TeamToy有新消息",
+          			"contentTitle": 'TeamToy有'+data_obj.data.notice+'条新信息',
+          			"contentText": data_obj.data.text,
+          			"id": data_obj.data.nid
+        		});
+
+        		kset('last_nid',parseInt( data_obj.data.nid ));
+				
+
+			}
+		}
+	}
+
+}
+</script>
+
+</body>
+</html>

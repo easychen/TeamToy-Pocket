@@ -1,0 +1,119 @@
+<!doctype html>
+<!--[if lt IE 7]> <html class="no-js ie6 oldie" lang="en"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js ie7 oldie" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js ie8 oldie" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+	<title></title>
+	<meta name="description" content="">
+	<meta name="author" content="">
+
+	<meta name="viewport" content="width=device-width,initial-scale=1">
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	
+	<link rel="stylesheet" href="css/style.css">
+	<script src="js/libs/modernizr-2.0.6.min.js"></script>
+</head>
+<body class="op-body">
+
+<div class="op-card cur" id="path_card">
+
+<header  class="op-header">
+<input type="button" class="header-btn left i18n" value="Menu" onclick=""/>
+<input type="button" class="header-btn right i18n" value="Todo" onclick="" id="avatar_button"/>
+<h1 class="i18n">Activity</h1>
+</header>
+<div id="main" class="op-wrapper">
+	<div id="scroller" class="op-scroller">
+	<div id="cover">
+		<div id="cover_icon"></div>	
+		<div id="refresh_icon"><img src="image/refresh@2x.png" id="refresh_image" width="24" onclick="load_path();"></div>	
+		<div id="cover_dot"></div>
+		<div id="cover_line"></div>
+		<div id="cover_time"></div>
+		
+	</div>
+		<ul id="path_list">
+		</ul>
+		<div id="more_button" onclick="load_more_path(last_pid);"> 载入更多 </div>
+	</div>
+	
+</div>
+
+<footer class="op-footer">
+  <a href="javascript:photo();toggle_menu();"><img id="path_photo" class="path_icon" src="image/icon/photo52.png" /></a>
+  <a href="javascript:toggle_menu();"><img id="path_people" class="path_icon" src="image/icon/none52.png" /></a>
+  <a href="javascript:toggle_menu();"><img id="path_place" class="path_icon" src="image/icon/none52.png" /></a>
+  <a href="javascript:toggle_menu();"><img id="path_music" class="path_icon" src="image/icon/none52.png" /></a>
+  <a href="javascript:change_card('thought_card');toggle_menu();"><img id="path_thought" class="path_icon" src="image/icon/thought52.png" /></a>
+  <a href="javascript:toggle_menu();"><img id="path_sleep" class="path_icon" src="image/icon/none52.png" /></a>
+ <a href="javascript:toggle_menu();"><img src="image/path_menu@2x.png" width="40" id="path_button"/></a>
+  
+</footer>
+
+</div>
+
+<div class="op-card" id="thought_card">
+<header  class="op-header">
+<input type="button" class="header-btn left" value="取消" onclick="change_card('path_card')"/>
+<input type="button" class="header-btn right" value="保存" onclick="save_thought();" id="thought_button"/>
+<h1>Thought</h1>
+
+</header>
+
+<textarea class="op-form" placeholder="你在想些啥子？" name="thought_text" id="thought_text">
+</textarea>
+
+
+
+
+</div><!-- /thought_card -->
+
+
+	<script src="js/libs/jq.mobi.min.js"></script>
+	<script src="js/libs/jq.i18n.min.js"></script>
+	<script src="js/libs/i18n.dict.js"></script>
+	<script src="js/libs/iscroll.js"></script>
+	<script type="text/javascript">
+
+var myScroll;
+
+function loaded() 
+{
+	$.i18n.setDictionary(dict_zh_cn);
+	i18n();
+	myScroll = new iScroll('main');
+	
+	// check token exists
+	if( !kget('op_token') ) change_page( 'index' );
+	
+	// 
+	//show_local_info();	
+	
+	
+}
+
+document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false);
+document.addEventListener('DOMContentLoaded', loaded, false);
+/*document.addEventListener("deviceready",onDeviceReady,false);*/
+
+/*
+function onDeviceReady() 
+{
+        pictureSource=navigator.camera.PictureSourceType;
+        destinationType=navigator.camera.DestinationType;
+}*/
+</script>
+<script src="js/plugins.js"></script>
+<script src="js/script.js"></script>
+
+
+
+
+<!-- end scripts-->
+
+</body>
+</html>

@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="zh-cn">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+	<title>TeamToy</title>
+	<meta name="description" content="">
+	<meta name="author" content="easychen@gmail.com">
+
+	<meta name="viewport" content="width=device-width,initial-scale=1">
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+
+	<link rel="stylesheet" href="css/style.css">
+
+	<script src="js/libs/modernizr-2.0.6.min.js"></script>
+</head>
+<body class="op-cover">
+
+<div id="container" >
+	<header>
+	<h1 class="logo"><img src="image/tt2login.title.png" id="logo" /></h1>
+	<h2 class="logo">永不下线的团队</h2>	
+	</header>
+	<div id="main" role="main">
+	<center>
+	<input type="button" value="扫描二维码" class="op-cover round8 button" onclick="qr_login();void(0);">
+	&nbsp;<span class="exp">- or -</span>&nbsp; 
+	<input type="button" value="手动登入" class="op-cover round8 button" id="login_button" onclick="change_page('login');void(0);">
+	
+	
+	<div style="margin-top:60px"><a href="javascript:change_page('auth');void(0);" style="color:white">高级设置</a></div> 
+	</center>
+	
+	</div>
+	<footer>
+
+	</footer>
+</div> <!--! end of #container -->
+
+<script src="js/libs/base64.js"></script>
+<script src="js/libs/jq.mobi.js"></script>
+<script src="js/libs/jq.i18n.min.js"></script>
+<script src="js/libs/i18n.dict.js"></script>
+<phonegap></phonegap>
+
+
+<!-- scripts concatenated and minified via ant build script-->
+<script type="text/javascript">
+
+function loaded() 
+{
+	$.i18n.setDictionary(dict_zh_cn);	
+	
+	//$('#login_button').val($.i18n._('Sign in'));
+	//if( $.os.ios ) $('#login_btn_p').css('visibility','hidden');
+	
+	// 如果本地存有用户名和密码，自动登录
+	if( kget('op_domain') && kget('op_domain').length > 0 && kget('op_email').length > 0 && kget('op_password').length > 0  )
+	{
+		change_page('login');
+		
+	}
+}
+
+document.addEventListener('DOMContentLoaded', loaded, false);
+
+
+
+</script>
+<script src="js/plugins.js"></script>
+<script src="js/script.js"></script>
+<!-- end scripts-->
+
+</body>
+</html>
