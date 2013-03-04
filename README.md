@@ -1,2 +1,2 @@
-TeamToy-Phonegap
+TeamToy-Pocket: TeamToy Phonegap Client
 ================
