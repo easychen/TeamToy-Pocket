@@ -1412,7 +1412,7 @@ function todo_add()
 								style = 'blue';
 							}
 							
-							$('#todo_list_normal').prepend($('<li class="'+ style +'" id="lt-' + ltid + '" tid="'+ ltid +'"><a href="#"><img id="t-img" src="image/ring.png" />'+ text +'</a></li>'));
+							$('#todo_list_normal').prepend($('<li class="'+ style +'" id="lt-' + ltid + '" tid="'+ ltid +'"><div class="todo_fi"><div class="todo_row"><a href="javascript:void(0);" class="item"><img id="t-img" src="image/ring.png" />'+ text +'</a></div></div></li>'));
 						
 							bind_todo();
 							setTimeout(function () 
